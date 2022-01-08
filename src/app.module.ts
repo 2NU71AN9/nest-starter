@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { HelloModule } from './hello/hello.module';
-
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
 @Module({
   imports: [HelloModule],
-  controllers: [AppController],
-  providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware)
+      .exclude({ path: 'hello', method: RequestMethod.POST })
+      .forRoutes('hello')
+  }
+}
