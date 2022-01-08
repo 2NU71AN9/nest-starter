@@ -1,5 +1,4 @@
-
 export enum UserRole {
-    Admin = 'admin',
-    User = 'user'
+  Admin = 'admin',
+  User = 'user',
 }

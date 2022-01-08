@@ -6,8 +6,9 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware)
+    consumer
+      .apply(LoggerMiddleware)
       .exclude({ path: 'hello', method: RequestMethod.POST })
-      .forRoutes('hello')
+      .forRoutes('hello');
   }
 }
