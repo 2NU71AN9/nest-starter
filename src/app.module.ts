@@ -7,6 +7,8 @@ import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { APP_GUARD } from '@nestjs/core';
+import { MyAuthGuard } from './common/guards/auth.guard';
 @Module({
   imports: [
     ConfigModule.load(resolve(__dirname, 'config', '**/!(*.d).{ts,js}')),
@@ -19,6 +21,12 @@ import { UsersModule } from './users/users.module';
     UsersModule,
   ],
   controllers: [AuthController],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: MyAuthGuard,
+    },
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
