@@ -1,4 +1,7 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "assets": ["把此路径下文件拷贝到dist目录"]
+  }
 }
