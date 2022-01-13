@@ -11,6 +11,9 @@ export class User {
   @Column()
   password: string;
 
+  @Column()
+  age: number;
+
   @Column({ default: true })
   status: boolean;
 
