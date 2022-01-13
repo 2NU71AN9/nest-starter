@@ -1,8 +1,11 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import * as express from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { logger } from './common/middleware/logger.middleware';
+import { TransformInterceptor } from './common/interceptor/transform.interceptor';
+import { AllExceptionsFilter } from './common/filters/any-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,7 +18,11 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, swaggerOptions);
   SwaggerModule.setup('doc', app, document);
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.use(express.json()); // For parsing application/json
+  app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
+  app.use(logger);
+  app.useGlobalInterceptors(new TransformInterceptor());
+  app.useGlobalFilters(new AllExceptionsFilter());
   // app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
 }
