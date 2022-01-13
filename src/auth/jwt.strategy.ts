@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { UsersService } from 'src/users/users.service';
 import { jwtConstants } from './constants';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(private readonly usersService: UsersService) {
     super({
       // 获取请求header token值
       jwtFromRequest: ExtractJwt.fromHeader('token'),
@@ -15,7 +16,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    //payload：jwt-passport认证jwt通过后解码的结果
-    return { username: payload.username, userId: payload.sub };
+    const userId = payload.sub;
+    const user = await this.usersService.findUserWithId(userId);
+    const { password, ...u } = user;
+    return u;
   }
 }

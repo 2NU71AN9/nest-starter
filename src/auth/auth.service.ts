@@ -1,22 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from 'src/users/user.entity';
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    @InjectRepository(User) private usersRepository: Repository<User>,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  async validate(username: string, password: string): Promise<any> {
-    const user = { username: '张三', password: '123456' };
-    if (user && user.username === username && user.password === password) {
-      const { password, ...result } = user;
-      return result;
+  private async validate(username: string, pwd: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { username } });
+    if (!user) {
+      throw new HttpException(
+        { message: '未注册用户', error: '未注册用户' },
+        HttpStatus.NOT_FOUND,
+      );
+    } else if (user.password != pwd) {
+      throw new HttpException(
+        { message: '密码不正确', error: '密码不正确' },
+        HttpStatus.BAD_REQUEST,
+      );
     }
-    return null;
+    return user;
   }
 
   async login(user: any): Promise<any> {
-    const payload = { username: user.username, sub: user.userId };
-    console.log(payload);
-    return { accessToken: this.jwtService.sign(payload) };
+    const u = await this.validate(user.username, user.password);
+    const payload = { username: u.username, sub: u.id };
+    const { password, ...result } = u;
+    (result as any).accessToken = this.jwtService.sign(payload);
+    return result;
   }
 }
