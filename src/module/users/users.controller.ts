@@ -1,12 +1,21 @@
-import { Body, Controller, Get, Post, Query, Request } from '@nestjs/common';
-import { NoAuth } from 'src/common/decorators/customize';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { NoAuth, Role } from 'src/common/decorators/customize';
+import { roleConstans } from '../auth/constants';
 import { UsersService } from './users.service';
-
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @Role(roleConstans.SUPER_ADMIN)
   findOne(@Request() req) {
     return req.user;
   }

@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './module/users/users.module';
 import { APP_GUARD } from '@nestjs/core';
 import { MyAuthGuard } from './common/guards/auth.guard';
+import { RbacGuard } from './common/guards/rbac.guard';
 @Module({
   imports: [
     ConfigModule.load(resolve(__dirname, 'config', '**/!(*.d).{ts,js}')),
@@ -25,6 +26,10 @@ import { MyAuthGuard } from './common/guards/auth.guard';
     {
       provide: APP_GUARD,
       useClass: MyAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RbacGuard,
     },
   ],
 })
