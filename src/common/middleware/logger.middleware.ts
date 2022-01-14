@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { Logger } from 'src/common/utils/log4js';
+import { Logger } from 'src/utils/log4js';
 
 export function logger(req: Request, res: Response, next: () => any) {
   // console.log(`${req.method} => ${req.path}`);
