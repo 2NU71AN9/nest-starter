@@ -22,7 +22,15 @@ export class TransformInterceptor implements NestInterceptor {
   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<`;
         Logger.info(logFormat);
         Logger.access(logFormat);
-        return data;
+        return {
+          code: 200,
+          success: true,
+          data,
+          message: '',
+          error: null,
+          timestamp: new Date().toISOString(),
+          path: req.url,
+        };
       }),
     );
   }

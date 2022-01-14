@@ -32,6 +32,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     Logger.error(logFormat);
     response.status(status).json({
       code: status,
+      success: false,
+      data: null,
       message,
       error: `${exception}`,
       timestamp: new Date().toISOString(),
