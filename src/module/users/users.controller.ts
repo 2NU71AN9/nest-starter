@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { NoAuth, Role } from 'src/common/decorators/customize';
 import { roleConstans } from '../auth/constants';
+import { RegisterInfoDTO } from './user.dto';
 import { UsersService } from './users.service';
 @ApiBearerAuth()
 @Controller('users')
@@ -22,8 +23,8 @@ export class UsersController {
 
   @NoAuth()
   @Post()
-  async regist(@Body() params) {
-    return this.usersService.create(params);
+  async regist(@Body() body: RegisterInfoDTO) {
+    return this.usersService.create(body);
   }
 
   @Post('/many')

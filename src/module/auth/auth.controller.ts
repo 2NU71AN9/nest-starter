@@ -10,7 +10,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @NoAuth()
-  @UsePipes(new ValidationPipe())
+  // @UsePipes(new ValidationPipe())
   @Post('login')
   async login(@Body() body: LoginDTO) {
     return this.authService.login(body);

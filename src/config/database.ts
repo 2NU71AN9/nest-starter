@@ -2,7 +2,7 @@ import { join } from 'path';
 
 export default {
   type: 'mysql',
-  host: 'localhost',
+  host: '124.223.95.29',
   port: 3306,
   username: 'root',
   password: '12345678',

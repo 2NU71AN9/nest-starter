@@ -1,5 +1,5 @@
 import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
-import { resolve } from 'path';
+import { join, resolve } from 'path';
 import { ConfigModule, ConfigService } from 'nestjs-config';
 import { HelloModule } from './module/hello/hello.module';
 // import { LoggerMiddleware } from './common/middleware/logger.middleware';
@@ -10,12 +10,16 @@ import { UsersModule } from './module/users/users.module';
 import { APP_GUARD } from '@nestjs/core';
 import { MyAuthGuard } from './common/guards/auth.guard';
 import { RbacGuard } from './common/guards/rbac.guard';
+import { ServeStaticModule } from '@nestjs/serve-static';
 @Module({
   imports: [
     ConfigModule.load(resolve(__dirname, 'config', '**/!(*.d).{ts,js}')),
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => config.get('database'),
       inject: [ConfigService],
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
     }),
     HelloModule,
     AuthModule,
