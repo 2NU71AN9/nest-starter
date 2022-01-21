@@ -33,6 +33,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3000);
+  await app.listen(80);
 }
 bootstrap();
