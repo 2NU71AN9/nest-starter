@@ -9,6 +9,8 @@ WORKDIR /usr/src/work_space/my_nest
 
 RUN npm install
 
+RUN npm run build
+
 # 配置系统变量，指定端口
 ENV HOST 0.0.0.0
 ENV PORT 80
