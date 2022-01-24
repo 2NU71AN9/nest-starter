@@ -4,7 +4,10 @@ export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
     findOne(req: any): any;
-    findAll(): Promise<import("../../entites/user.entity").User[]>;
+    findAll({ page, size }: {
+        page: any;
+        size: any;
+    }): Promise<import("../../entites/user.entity").User[]>;
     regist(body: RegisterInfoDTO): Promise<import("../../entites/user.entity").User[]>;
     createMany(users: any): Promise<boolean>;
 }

@@ -22,8 +22,12 @@ let UsersService = class UsersService {
         this.usersRepository = usersRepository;
         this.connection = connection;
     }
-    findAll() {
-        return this.usersRepository.find({ relations: ['photos'] });
+    findAll(page, size) {
+        return this.usersRepository.find({
+            relations: ['photos'],
+            skip: Math.max(page - 1, 0) * size,
+            take: size,
+        });
     }
     async findUserWithId(id) {
         return await this.usersRepository.findOne({ where: { id } });

@@ -26,8 +26,8 @@ let UsersController = class UsersController {
     findOne(req) {
         return req.user;
     }
-    findAll() {
-        return this.usersService.findAll();
+    findAll({ page, size }) {
+        return this.usersService.findAll(page, size);
     }
     async regist(body) {
         return this.usersService.create(body);
@@ -46,8 +46,11 @@ __decorate([
 ], UsersController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Get)('all'),
+    (0, swagger_1.ApiQuery)({ name: 'page', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'size', required: false }),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findAll", null);
 __decorate([

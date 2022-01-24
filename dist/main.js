@@ -29,7 +29,7 @@ async function bootstrap() {
     app.useGlobalInterceptors(new transform_interceptor_1.TransformInterceptor());
     app.useGlobalFilters(new any_exception_filter_1.AllExceptionsFilter());
     app.useGlobalPipes(new validation_pipe_1.ValidationPipe());
-    await app.listen(80);
+    await app.listen(3000);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

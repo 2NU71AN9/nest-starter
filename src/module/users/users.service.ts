@@ -10,8 +10,12 @@ export class UsersService {
     private connection: Connection,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find({ relations: ['photos'] });
+  findAll(page: number, size: number): Promise<User[]> {
+    return this.usersRepository.find({
+      relations: ['photos'],
+      skip: Math.max(page - 1, 0) * size,
+      take: size,
+    });
   }
 
   async findUserWithId(id): Promise<User> {

@@ -1,5 +1,13 @@
-import { Body, Controller, Get, Post, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Request,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { NoAuth, Role } from 'src/common/decorators/customize';
 import { roleConstans } from '../auth/constants';
 import { RegisterInfoDTO } from './user.dto';
@@ -17,8 +25,10 @@ export class UsersController {
   }
 
   @Get('all')
-  findAll() {
-    return this.usersService.findAll();
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'size', required: false })
+  findAll(@Query() { page, size }) {
+    return this.usersService.findAll(page, size);
   }
 
   @NoAuth()
